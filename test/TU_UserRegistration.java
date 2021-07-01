@@ -1,5 +1,6 @@
 package com.userregistration.test;
 
+import com.userregistration.exception.UserRegistrationException;
 import com.userregistration.service.UserRegistrationService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -11,256 +12,409 @@ import org.junit.jupiter.api.Test;
  * @author --  Abhishek Shigavan
  */
 public class TU_UserRegistration {
+
+    UserRegistrationService userService = new UserRegistrationService();
     /**
      * Giving valid first name & checking
      * validation method return true / not
      */
     @Test
-    void whenValidFirstNameGivenReturnTrue() {
+    void whenValidFirstNameGivenReturnTrue() throws UserRegistrationException {
 
-        UserRegistrationService userService = new UserRegistrationService();
-        String firstName = "Abhishek";
-        boolean flag = userService.validateFirstName(firstName);
+        String firstName = "Abcde";
+        try {
+            boolean flag = userService.validateFirstName(firstName);
 
-        boolean result = flag;
-        Assertions.assertTrue(result);
+            boolean result = flag;
+            Assertions.assertTrue(result);
+        }
+        catch (UserRegistrationException error){
+            error.printStackTrace();
+        }
     }
     /**
      * Giving Invalid first name & checking
      * validation method returns false / not
      */
     @Test
-    void whenInValidFirstNameGivenReturnFalse() {
+    void whenInValidFirstNameGivenReturnFalse() throws UserRegistrationException {
 
-        UserRegistrationService userService = new UserRegistrationService();
-        String firstName = "ab";
-        boolean flag = userService.validateFirstName(firstName);
+        String firstName = "abcd";
+        try {
+            boolean flag = userService.validateFirstName(firstName);
 
-        boolean result = flag;
-        Assertions.assertFalse(result);
+            boolean result = flag;
+            Assertions.assertFalse(result);
+        }
+        catch (UserRegistrationException error){
+            error.printStackTrace();
+        }
+    }
+    /**
+     * This method creates exception by giving First Name
+     * value null & checking it is giving NULL_FIRST_NAME error code / not
+     */
+    @Test
+    void whenFirstNameIsGivenNullShouldThrowExceptionWith_NULL_FIRST_NAME_ErrorCode() {
+
+        try{
+            //creating exception with NULL_FIRST_NAME error code
+            userService.validateFirstName(null);
+        }
+        catch (UserRegistrationException err_code){
+            //matching expected error code with actual error code
+            Assertions.assertEquals(UserRegistrationException.ErrorCode.NULL_FIRST_NAME,err_code.error);
+        }
     }
     /**
      * Giving valid last name & checking
      * validation method return true / not
      */
     @Test
-    void whenValidLastNameGivenReturnTrue() {
+    void whenValidLastNameGivenReturnTrue() throws UserRegistrationException{
 
-        UserRegistrationService userService = new UserRegistrationService();
         String lastName = "Shigavan";
-        boolean flag = userService.validateLastName(lastName);
+        try {
+            boolean flag = userService.validateLastName(lastName);
 
-        boolean result = flag;
-        Assertions.assertTrue(result);
+            boolean result = flag;
+            Assertions.assertTrue(result);
+        } catch (UserRegistrationException error) {
+            error.printStackTrace();
+        }
     }
     /**
      * Giving Invalid last name & checking
      * validation method returns false / not
      */
     @Test
-    void whenInValidLastNameGivenReturnFalse() {
+    void whenInValidLastNameGivenReturnFalse() throws UserRegistrationException {
 
-        UserRegistrationService userService = new UserRegistrationService();
         String lastName = "wxyz";
-        boolean flag = userService.validateLastName(lastName);
+        try {
+            boolean flag = userService.validateLastName(lastName);
 
-        boolean result = flag;
-        Assertions.assertFalse(result);
+            boolean result = flag;
+            Assertions.assertFalse(result);
+        }
+        catch (UserRegistrationException error){
+            error.printStackTrace();
+        }
+    }
+    /**
+     * This method creates exception by giving Last Name value null
+     * & checking it is giving NULL_LAST_NAME error code / not
+     */
+    @Test
+    void whenLastNameIsGivenNullShouldThrowExceptionWith_NULL_LAST_NAME_ErrorCode() {
+
+        try{
+            //creating exception with NULL_LAST_NAME error code
+            userService.validateLastName(null);
+        }
+        catch (UserRegistrationException err_code){
+            //matching expected error code with actual error code
+            Assertions.assertEquals(UserRegistrationException.ErrorCode.NULL_LAST_NAME,err_code.error);
+        }
     }
     /**
      * Giving valid email id  & checking
      * validation method return true / not
      */
     @Test
-    void whenValidEmailIdGivenReturnTrue() {
+    void whenValidEmailIdGivenReturnTrue() throws UserRegistrationException {
 
-        UserRegistrationService userService = new UserRegistrationService();
         String email = "abc@gmail.com.in";
-        boolean flag = userService.validateEmailId(email);
+        try {
+            boolean flag = userService.validateEmailId(email);
 
-        boolean result = flag;
-        Assertions.assertTrue(result);
+            boolean result = flag;
+            Assertions.assertTrue(result);
+        }
+        catch (UserRegistrationException error){
+            error.printStackTrace();
+        }
     }
     /**
      * Giving InValid email id & checking
      * validation method return false / not
      */
     @Test
-    void whenInValidEmailIdGivenReturnFalse() {
+    void whenInValidEmailIdGivenReturnFalse() throws UserRegistrationException {
 
-        UserRegistrationService userService = new UserRegistrationService();
         String email = "abc@gmail.10.in";
-        boolean flag = userService.validateEmailId(email);
+        try {
+            boolean flag = userService.validateEmailId(email);
 
-        boolean result = flag;
-        Assertions.assertFalse(result);
+            boolean result = flag;
+            Assertions.assertFalse(result);
+        }
+        catch (UserRegistrationException error){
+            error.printStackTrace();
+        }
+    }
+    /**
+     * This method creates exception by giving Email Id value null
+     * & checking it is giving NULL_EMAIL error code / not
+     */
+    @Test
+    void whenEmailIdIsGivenNullShouldThrowExceptionWith_NULL_EMAIL_ErrorCode() {
+
+        try{
+            //creating exception with NULL_EMAIL error code
+            userService.validateEmailId(null);
+        }
+        catch (UserRegistrationException err_code){
+            //matching expected error code with actual error code
+            Assertions.assertEquals(UserRegistrationException.ErrorCode.NULL_EMAIL,err_code.error);
+        }
     }
     /**
      * Giving valid mobile number & checking
      * validation method return true / not
      */
     @Test
-    void whenValidMobileNoGivenReturnTrue() {
+    void whenValidMobileNoGivenReturnTrue() throws UserRegistrationException {
 
-        UserRegistrationService userService = new UserRegistrationService();
         String mobileNo = "91 9874561230";
-        boolean flag = userService.validateMobNo(mobileNo);
+        try {
+            boolean flag = userService.validateMobNo(mobileNo);
 
-        boolean result = flag;
-        Assertions.assertTrue(result);
+            boolean result = flag;
+            Assertions.assertTrue(result);
+        }
+        catch (UserRegistrationException error){
+            error.printStackTrace();
+        }
     }
     /**
      * Giving Invalid mobile number & checking
      * validation method returns false / not
      */
     @Test
-    void whenInValidMobileNoGivenReturnFalse() {
+    void whenInValidMobileNoGivenReturnFalse() throws UserRegistrationException {
 
-        UserRegistrationService userService = new UserRegistrationService();
         String mobileNo = "987456";
-        boolean flag = userService.validateMobNo(mobileNo);
+        try {
+            boolean flag = userService.validateMobNo(mobileNo);
 
-        boolean result = flag;
-        Assertions.assertFalse(result);
+            boolean result = flag;
+            Assertions.assertFalse(result);
+        }
+        catch (UserRegistrationException error){
+            error.printStackTrace();
+        }
+    }
+    /**
+     * This method creates exception by giving Mobile Number value null
+     * & checking it is giving NULL_MOBILE error code / not
+     */
+    @Test
+    void whenMobileNoIsGivenNullShouldThrowExceptionWith_NULL_MOBILE_ErrorCode() {
+
+        try{
+            //creating exception with NULL_MOBILE error code
+            userService.validateMobNo(null);
+        }
+        catch (UserRegistrationException err_code){
+            //matching expected error code with actual error code
+            Assertions.assertEquals(UserRegistrationException.ErrorCode.NULL_MOBILE,err_code.error);
+        }
     }
     /**
      * Giving valid password & checking
      * validation method return true / not
      */
     @Test
-    void whenValidPasswordGivenReturnTruePassPart1() {
+    void whenValidPasswordGivenReturnTruePassPart1() throws UserRegistrationException {
 
-        UserRegistrationService userService = new UserRegistrationService();
         String password = "abcdefgh";
-        boolean flag = userService.validatePasswordPart1(password);
+        try {
+            boolean flag = userService.validatePasswordPart1(password);
 
-        boolean result = flag;
-        Assertions.assertTrue(result);
+            boolean result = flag;
+            Assertions.assertTrue(result);
+        }
+        catch (UserRegistrationException error){
+            error.printStackTrace();
+        }
     }
     /**
      * Giving Invalid password & checking
      * validation method returns false / not
      */
     @Test
-    void whenInValidPasswordGivenReturnFalsePassPart1() {
+    void whenInValidPasswordGivenReturnFalsePassPart1() throws UserRegistrationException {
 
-        UserRegistrationService userService = new UserRegistrationService();
         String password = "abcdgh";
-        boolean flag = userService.validatePasswordPart1(password);
+        try {
+            boolean flag = userService.validatePasswordPart1(password);
 
-        boolean result = flag;
-        Assertions.assertFalse(result);
+            boolean result = flag;
+            Assertions.assertFalse(result);
+        }
+        catch (UserRegistrationException error) {
+            error.printStackTrace();
+        }
     }
     /**
      * Giving valid password & checking
      * validation method return true / not
      */
     @Test
-    void whenValidPasswordGivenReturnTruePassPart2() {
+    void whenValidPasswordGivenReturnTruePassPart2() throws UserRegistrationException {
 
-        UserRegistrationService userService = new UserRegistrationService();
         String password = "qweRty123";
-        boolean flag = userService.validatePasswordPart2(password);
+        try {
+            boolean flag = userService.validatePasswordPart2(password);
 
-        boolean result = flag;
-        Assertions.assertTrue(result);
+            boolean result = flag;
+            Assertions.assertTrue(result);
+        }
+        catch (UserRegistrationException error) {
+            error.printStackTrace();
+        }
     }
     /**
      * Giving Invalid password & checking
      * validation method returns false / not
      */
     @Test
-    void whenInValidPasswordGivenReturnFalsePassPart2() {
+    void whenInValidPasswordGivenReturnFalsePassPart2() throws UserRegistrationException {
 
-        UserRegistrationService userService = new UserRegistrationService();
         String password = "qwerty123";
-        boolean flag = userService.validatePasswordPart2(password);
+        try {
+            boolean flag = userService.validatePasswordPart2(password);
 
-        boolean result = flag;
-        Assertions.assertFalse(result);
+            boolean result = flag;
+            Assertions.assertFalse(result);
+        }
+        catch (UserRegistrationException error) {
+            error.printStackTrace();
+        }
     }
     /**
      * Giving valid password & checking
      * validation method return true / not
      */
     @Test
-    void whenValidPasswordGivenReturnTruePassPart3() {
+    void whenValidPasswordGivenReturnTruePassPart3() throws UserRegistrationException {
 
-        UserRegistrationService userService = new UserRegistrationService();
         String password = "Qwerty123";
-        boolean flag = userService.validatePasswordPart3(password);
+        try {
+            boolean flag = userService.validatePasswordPart3(password);
 
-        boolean result = flag;
-        Assertions.assertTrue(result);
+            boolean result = flag;
+            Assertions.assertTrue(result);
+        }
+        catch (UserRegistrationException error){
+            error.printStackTrace();
+        }
     }
     /**
      * Giving Invalid password & checking
      * validation method returns false / not
      */
     @Test
-    void whenInValidPasswordGivenReturnFalsePassPart3() {
+    void whenInValidPasswordGivenReturnFalsePassPart3() throws UserRegistrationException {
 
-        UserRegistrationService userService = new UserRegistrationService();
         String password = "qwertyQwerty";
-        boolean flag = userService.validatePasswordPart3(password);
+        try {
+            boolean flag = userService.validatePasswordPart3(password);
 
-        boolean result = flag;
-        Assertions.assertFalse(result);
+            boolean result = flag;
+            Assertions.assertFalse(result);
+        }
+        catch (UserRegistrationException error) {
+            error.printStackTrace();
+        }
     }
     /**
      * Giving valid password & checking
      * validation method return true / not
      */
     @Test
-    void whenValidPasswordGivenReturnTruePassPart4() {
+    void whenValidPasswordGivenReturnTruePassPart4() throws UserRegistrationException {
 
-        UserRegistrationService userService = new UserRegistrationService();
         String password = "Qwerty@1234";
-        boolean flag = userService.validatePasswordPart4(password);
+        try {
+            boolean flag = userService.validatePasswordPart4(password);
 
-        boolean result = flag;
-        Assertions.assertTrue(result);
+            boolean result = flag;
+            Assertions.assertTrue(result);
+        }
+        catch (UserRegistrationException error) {
+            error.printStackTrace();
+        }
     }
     /**
      * Giving Invalid password & checking
      * validation method returns false / not
      */
     @Test
-    void whenInValidPasswordGivenReturnFalsePassPart4() {
+    void whenInValidPasswordGivenReturnFalsePassPart4() throws UserRegistrationException {
 
-        UserRegistrationService userService = new UserRegistrationService();
         String password = "Qwerty1234";
-        boolean flag = userService.validatePasswordPart4(password);
+        try {
+            boolean flag = userService.validatePasswordPart4(password);
 
-        boolean result = flag;
-        Assertions.assertFalse(result);
+            boolean result = flag;
+            Assertions.assertFalse(result);
+        }
+        catch (UserRegistrationException error) {
+            error.printStackTrace();
+        }
     }
     /**
      * Giving valid password & checking
      * validation method return true / not
      */
     @Test
-    void whenValidPasswordGivenReturnTrue() {
+    void whenValidPasswordGivenReturnTrue() throws UserRegistrationException {
 
-        UserRegistrationService userService = new UserRegistrationService();
         String password = "Qwerty@123";
-        boolean flag = userService.validatePassword(password);
+        try {
+            boolean flag = userService.validatePassword(password);
 
-        boolean result = flag;
-        Assertions.assertTrue(result);
+            boolean result = flag;
+            Assertions.assertTrue(result);
+        }
+        catch (UserRegistrationException error) {
+            error.printStackTrace();
+        }
     }
     /**
      * Giving Invalid password & checking
      * validation method returns false / not
      */
     @Test
-    void whenInValidPasswordGivenReturnTrue() {
+    void whenInValidPasswordGivenReturnFalse() {
 
-        UserRegistrationService userService = new UserRegistrationService();
         String password = "Qw@!12";
-        boolean flag = userService.validatePassword(password);
+        try {
+            boolean flag = userService.validatePassword(password);
 
-        boolean result = flag;
-        Assertions.assertFalse(result);
+            boolean result = flag;
+            Assertions.assertFalse(result);
+        }
+        catch (UserRegistrationException error){
+            error.printStackTrace();
+        }
+    }
+    /**
+     * This method creates exception by giving Password value null
+     * & checking it is giving NULL_PASSWORD error code / not
+     */
+    @Test
+    void whenPasswordIsGivenNullShouldThrowExceptionWith_NULL_PASSWORD_ErrorCode() {
+
+        try{
+            //creating exception with NULL_PASSWORD error code
+            userService.validatePassword(null);
+        }
+        catch (UserRegistrationException err_code){
+            //matching expected error code with actual error code
+            Assertions.assertEquals(UserRegistrationException.ErrorCode.NULL_PASSWORD,err_code.error);
+        }
     }
 }

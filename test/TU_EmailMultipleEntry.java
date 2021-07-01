@@ -1,4 +1,5 @@
 package com.userregistration.test;
+import com.userregistration.exception.UserRegistrationException;
 import com.userregistration.service.UserRegistrationService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -43,10 +44,16 @@ public class TU_EmailMultipleEntry {
                 {  "abc@gmail.com.aa.au", false} });
     }
     @Test
-    void validateEmail() {
+    void validateEmail() throws UserRegistrationException {
 
         UserRegistrationService userService = new UserRegistrationService();
-        boolean result = userService.validateEmailId(this.emailToTest);
-        Assertions.assertEquals(this.expectedResult, result);
+        try {
+
+            boolean result = userService.validateEmailId(this.emailToTest);
+            Assertions.assertEquals(this.expectedResult, result);
+        }
+        catch (UserRegistrationException error){
+            error.printStackTrace();
+        }
     }
 }
