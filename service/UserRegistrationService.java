@@ -1,7 +1,5 @@
 package com.userregistration.service;
-
 import com.userregistration.exception.UserRegistrationException;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -12,258 +10,193 @@ import java.util.regex.Pattern;
  * @author Abhishek Shigavan
  */
 public class UserRegistrationService {
+    //regex pattern for all fields
+    //first letter compulsory capital and should have minimum 3 lett
+    final String FIRST_NAME_REGEX = "^[A-Z][a-z]{2,}";
+    //first letter compulsory capital and should have minimum 3 letters
+    final String LAST_NAME_REGEX = "^[A-Z][a-z]{2,}";
+    //Username is compulsory before @ can have ._- in between username / without it
+    //@ domain name compulsory...after domain one tld is compulsory another one is optional
+    final String EMAIL_REGEX = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@([a-z0-9]{3,12})\\.([a-z]{2,6})(\\.[a-z]{2,3})?$";
+    //country code is optional ...if given then have to give space after country code
+    //mobile no must be 10 digits
+    final String MOBILE_REGEX = "(0\s|91\s)?[1-9][0-9]{9}";
+    //minimum 8 characters / numbers
+    final String PASSWORD_TYPE1_REGEX = "^[a-zA-Z0-9]{8,}";
+    //minimum 8 characters / numbers ....at least one upper case
+    final String PASSWORD_TYPE2_REGEX= "^(?=.*?[A-Z])[a-zA-Z0-9]{8,}$";
+    //minimum 8 characters...at least one upper case ...at least one number
+    final String PASSWORD_TYPE3_REGEX= "^(?=.*?[A-Z])(?=.*?[0-9])[a-zA-Z0-9]{8,}";
+    //minimum 8 characters , at least 1 uppercase character
+    //atleast one special character, number, lowercase character
+    final String PASSWORD_FINAL_REGEX= "^(?=.*[0-9])" + "(?=.*[a-z])(?=.*[A-Z])" + "(?=.*[@#$%^&+=])" + "(?=\\S+$).{8,}$";
+
     /**
-     * This method validates First Name
+     * This method validates First Name by matching given first name with
+     * predefine regex pattern of first name
+     * Also throws exception when first name value is empty
      *
-     * @param f_Name - First Name
-     * @return true
+     * @param f_Name - First Name value
+     * @return true if value matches with pattern else false
      */
-    public boolean validateFirstName(String f_Name) throws UserRegistrationException {
-
-        boolean flag = false;
-        //first letter compulsory capital and
-        //should have minimum 3 letters
-        String regexPattern = "^[A-Z][a-z]{2,}";
+    public UserValidationInter validateFirstName = (String f_Name) -> {
+        boolean result = false;
         try {
-            Pattern pattern = Pattern.compile(regexPattern);
-
-            if (f_Name == null) {
-                throw new UserRegistrationException("First Name value is null",UserRegistrationException.ErrorCode.NULL_FIRST_NAME);
+            if (f_Name.length() == 0) {
+                throw new UserRegistrationException("EXCEPTION OCCURED..PLZ ENTER CORRECT INPUT",UserRegistrationException.ErrorCode.EMPTY_FIRST_NAME);
             }
-
-            Matcher match = pattern.matcher(f_Name);
-            flag = match.matches();
-
-            return flag;
+            result = Pattern.compile(FIRST_NAME_REGEX).matcher(f_Name).matches();
         }
-        catch (Exception e){
-               throw new UserRegistrationException("First Name value is null",UserRegistrationException.ErrorCode.NULL_FIRST_NAME);
+        catch (UserRegistrationException e){
+               throw new UserRegistrationException("EXCEPTION OCCURED..PLZ ENTER CORRECT INPUT",UserRegistrationException.ErrorCode.EMPTY_FIRST_NAME);
         }
-    }
+        return result;
+    };
     /**
-     * This method validates Last Name
+     * This method validates Last Name by matching given last name with the
+     * predefine regex pattern of last name
+     * Also throws exception when last name value is empty
      *
-     * @param l_Name - Last Name
-     * @return true
+     * @param l_Name - Last Name value
+     * @return true if value mathes the pattern else false
      */
-    public boolean validateLastName(String l_Name) throws UserRegistrationException{
-
-        boolean flag = false;
-        //first letter compulsory capital and
-        //should have minimum 3 letters
-        String regexPattern = "^[A-Z][a-z]{2,}";
+    public UserValidationInter validateLastName = (String l_Name) -> {
+        boolean result = false;
         try {
-            Pattern pattern = Pattern.compile(regexPattern);
-
-            if (l_Name == null) {
-                throw new UserRegistrationException("Last Name Value is null", UserRegistrationException.ErrorCode.NULL_LAST_NAME);
+            if (l_Name.length() == 0) {
+                throw new UserRegistrationException("EXCEPTION OCCURED..PLZ ENTER CORRECT INPUT", UserRegistrationException.ErrorCode.EMPTY_LAST_NAME);
             }
-
-            Matcher match = pattern.matcher(l_Name);
-            flag = match.matches();
-
-            return flag;
+           result = Pattern.compile(LAST_NAME_REGEX).matcher(l_Name).matches();
         }
-        catch (Exception e){
-            throw new UserRegistrationException("Last Name Value is null", UserRegistrationException.ErrorCode.NULL_LAST_NAME);
+        catch (UserRegistrationException e){
+            throw new UserRegistrationException("EXCEPTION OCCURED..PLZ ENTER CORRECT INPUT", UserRegistrationException.ErrorCode.EMPTY_LAST_NAME);
         }
-    }
+        return result;
+    };
     /**
-     * This method validates Email Id
+     * This method validates Email Id by matching the given email id with
+     * predefine regex pattern of email id
+     * Also throws exception when given email id value is empty
      *
-     * @param emailId - Email Id
-     * @return true
+     * @param emailId - Email Id value
+     * @return true if matches with pattern else false
      */
-    public boolean validateEmailId(String emailId) throws UserRegistrationException {
-
-        boolean flag = false;
-        //Username is compulsory before @ can have username with ._- in between / without it
-        //@ domain name compulsory
-        //after domain one tld is compulsory another one is optional
-        String regexPattern = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@([a-z0-9]{3,12})\\.([a-z]{2,6})(\\.[a-z]{2,3})?$";
+    public UserValidationInter validateEmailId = (String emailId) -> {
+        boolean result = false;
         try {
-            Pattern pattern = Pattern.compile(regexPattern);
-
-            if (emailId == null) {
-                throw new UserRegistrationException("Email Id Value is null", UserRegistrationException.ErrorCode.NULL_EMAIL);
+            if (emailId.length() == 0) {
+                throw new UserRegistrationException("EXCEPTION OCCURED..PLZ ENTER CORRECT INPUT", UserRegistrationException.ErrorCode.EMPTY_EMAIL);
             }
-
-            Matcher match = pattern.matcher(emailId);
-            flag = match.matches();
-
-            return flag;
+            result = Pattern.compile(EMAIL_REGEX).matcher(emailId).matches();
         }
-        catch(Exception error){
-            throw new UserRegistrationException("Email Id Value is null", UserRegistrationException.ErrorCode.NULL_EMAIL);
+        catch(UserRegistrationException e){
+            throw new UserRegistrationException("EXCEPTION OCCURED..PLZ ENTER CORRECT INPUT", UserRegistrationException.ErrorCode.EMPTY_EMAIL);
         }
-    }
+        return result;
+    };
     /**
-     * This method validates Mobile Number
+     * This method validates Mobile Number by matching given mobile no with
+     * perdefined regex pattern of mobile number
+     * Also throws the exception when given mobile number is empty
      *
-     * @param mob_No - Mobile Number
-     * @return true
+     * @param mob_No - Mobile Number value
+     * @return true if matches with pattern else false
      */
-    public boolean validateMobNo(String mob_No) throws UserRegistrationException{
-
-        boolean flag = false;
-        //country code is optional
-        //if given then have to give space after country code
-        //mobile no must be 10 digits
-        String regexPattern = "(0\s|91\s)?[1-9][0-9]{9}";
+    public UserValidationInter validateMobNo = (String mob_No) -> {
+        boolean result = false;
         try {
-            Pattern pattern = Pattern.compile(regexPattern);
-
-            if (mob_No == null) {
-                throw new UserRegistrationException("Mobile No Value is Null", UserRegistrationException.ErrorCode.NULL_MOBILE);
+            if (mob_No.length() == 0) {
+                throw new UserRegistrationException("EXCEPTION OCCURED..PLZ ENTER CORRECT INPUT", UserRegistrationException.ErrorCode.EMPTY_MOBILE);
             }
-
-            Matcher match = pattern.matcher(mob_No);
-            flag = match.matches();
-
-            return flag;
+            result = Pattern.compile(MOBILE_REGEX).matcher(mob_No).matches();
         }
-        catch (Exception error){
-            throw new UserRegistrationException("Mobile No Value is null", UserRegistrationException.ErrorCode.NULL_MOBILE);
+        catch (UserRegistrationException e){
+            throw new UserRegistrationException("EXCEPTION OCCURED..PLZ ENTER CORRECT INPUT", UserRegistrationException.ErrorCode.EMPTY_MOBILE);
         }
-    }
+        return result;
+    };
     /**
-     * This method validates Password
+     * This method validates Password by matching the given password with
+     * predefined regex pattern for password
+     * Also throws exception when password is empty
      *
-     * @param password
-     * @return true
+     * @param password - value of password
+     * @return true if given password matches with pattern else false
      */
-    public boolean validatePasswordPart1(String password) throws UserRegistrationException {
-
-        boolean flag = false;
-        //minimum 8 characters
-        String regexPattern = "^[a-zA-Z0-9]{8,}";
+    public UserValidationInter validatePasswordType1 = (String password) -> {
+        boolean result = false;
         try {
-            Pattern pattern = Pattern.compile(regexPattern);
-
-            if (password == null) {
-                throw new UserRegistrationException("Password Value is null", UserRegistrationException.ErrorCode.NULL_PASSWORD);
+            if (password.length() == 0) {
+                throw new UserRegistrationException("EXCEPTION OCCURED..PLZ ENTER CORRECT INPUT", UserRegistrationException.ErrorCode.EMPTY_PASSWORD);
             }
-
-            Matcher match = pattern.matcher(password);
-            flag = match.matches();
-
-            return flag;
+            result = Pattern.compile(PASSWORD_TYPE1_REGEX).matcher(password).matches();
         }
-        catch (Exception error){
-            throw new UserRegistrationException("Password Value is null", UserRegistrationException.ErrorCode.NULL_PASSWORD);
+        catch (UserRegistrationException e){
+            throw new UserRegistrationException("EXCEPTION OCCURED..PLZ ENTER CORRECT INPUT", UserRegistrationException.ErrorCode.EMPTY_PASSWORD);
         }
-    }
+        return result;
+    };
     /**
-     * This method validates Password
+     * This method validates Password by matching the given password with
+     * predefined regex pattern for password
+     * Also throws exception when password is empty
      *
-     * @param password
-     * @return true
+     * @param password - value of password
+     * @return true if given password matches with pattern else false
      */
-    public boolean validatePasswordPart2(String password) throws UserRegistrationException {
-
-        boolean flag = false;
-        //minimum 8 characters
-        //at least one upper case
-        String regexPattern = "^(?=.*?[A-Z])[a-zA-Z0-9]{8,}$";
+    public UserValidationInter validatePasswordType2 = (String password) -> {
+        boolean result = false;
         try {
-            Pattern pattern = Pattern.compile(regexPattern);
-
-            if (password == null) {
-                throw new UserRegistrationException("Password Value is null", UserRegistrationException.ErrorCode.NULL_PASSWORD);
+            if (password.length() == 0) {
+                throw new UserRegistrationException("EXCEPTION OCCURED..PLZ ENTER CORRECT INPUT", UserRegistrationException.ErrorCode.EMPTY_PASSWORD);
             }
-
-            Matcher match = pattern.matcher(password);
-            flag = match.matches();
-
-            return flag;
+            result = Pattern.compile(PASSWORD_TYPE2_REGEX).matcher(password).matches();
         }
-        catch (Exception error){
-            throw new UserRegistrationException("Password Value is null", UserRegistrationException.ErrorCode.NULL_PASSWORD);
+        catch (UserRegistrationException e){
+            throw new UserRegistrationException("EXCEPTION OCCURED..PLZ ENTER CORRECT INPUT", UserRegistrationException.ErrorCode.EMPTY_PASSWORD);
         }
-    }
+        return result;
+    };
     /**
-     * This method validates Password
+     * This method validates Password by matching the given password with
+     * predefined regex pattern for password
+     * Also throws exception when password is empty
      *
-     * @param password
-     * @return true
+     * @param password - value of password
+     * @return true if given password matches with pattern else false
      */
-    public boolean validatePasswordPart3(String password) throws UserRegistrationException {
-
-        boolean flag = false;
-        //minimum 8 characters
-        //at least one upper case
-        //at least one number
-        String regexPattern = "^(?=.*?[A-Z])(?=.*?[0-9])[a-zA-Z0-9]{8,}";
+    public UserValidationInter validatePasswordType3 = (String password) -> {
+        boolean result = false;
         try {
-            Pattern pattern = Pattern.compile(regexPattern);
-
-            if (password == null) {
-                throw new UserRegistrationException("Password Value is null", UserRegistrationException.ErrorCode.NULL_PASSWORD);
+            if (password.length() == 0) {
+                throw new UserRegistrationException("EXCEPTION OCCURED..PLZ ENTER CORRECT INPUT", UserRegistrationException.ErrorCode.EMPTY_PASSWORD);
             }
-
-            Matcher match = pattern.matcher(password);
-            flag = match.matches();
-
-            return flag;
+            result = Pattern.compile(PASSWORD_TYPE3_REGEX).matcher(password).matches();
         }
-        catch (Exception error){
-            throw new UserRegistrationException("Password Value is null", UserRegistrationException.ErrorCode.NULL_PASSWORD);
+        catch (UserRegistrationException e){
+            throw new UserRegistrationException("EXCEPTION OCCURED..PLZ ENTER CORRECT INPUT", UserRegistrationException.ErrorCode.EMPTY_PASSWORD);
         }
-    }
+        return result;
+    };
     /**
-     * This method validates Password
+     * This method validates Password by matching the given password with
+     * predefined regex pattern for password
+     * Also throws exception when password is empty
      *
-     * @param password
-     * @return true
+     * @param password - value of password
+     * @return true if given password matches with pattern else false
      */
-    public boolean validatePasswordPart4 (String password) throws UserRegistrationException {
-
-        boolean flag = false;
-        //minimum 8 characters , at least one upper case
-        //at least one number, one special character
-        String regexPattern = "^(?=.*[0-9])" + "(?=.*[a-z])(?=.*[A-Z])" + "(?=.*[@#$%^&+=])" + "(?=\\S+$).{8,}$";
+    public UserValidationInter validatePassword = (String password) -> {
+        boolean result = false;
         try {
-            Pattern pattern = Pattern.compile(regexPattern);
-
-            if (password == null) {
-                throw new UserRegistrationException("Password Value is null", UserRegistrationException.ErrorCode.NULL_PASSWORD);
+            if (password.length() == 0) {
+                throw new UserRegistrationException("EXCEPTION OCCURED..PLZ ENTER CORRECT INPUT", UserRegistrationException.ErrorCode.EMPTY_PASSWORD);
             }
-
-            Matcher match = pattern.matcher(password);
-            flag = match.matches();
-
-            return flag;
+            result =  Pattern.compile(PASSWORD_FINAL_REGEX).matcher(password).matches();
         }
-        catch (Exception error){
-            throw new UserRegistrationException("Password Value is null", UserRegistrationException.ErrorCode.NULL_PASSWORD);
+        catch (UserRegistrationException e){
+            throw new UserRegistrationException("EXCEPTION OCCURED..PLZ ENTER CORRECT INPUT", UserRegistrationException.ErrorCode.EMPTY_PASSWORD);
         }
-    }
-    /**
-     * This method validates Password
-     *
-     * @param password
-     * @return true
-     */
-    public boolean validatePassword(String password) throws UserRegistrationException{
-
-        boolean flag = false;
-        //minimum 8 characters , at least 1 uppercase character
-        //atleast one special character, number, lowercase character
-        String regexPattern = "^(?=.*[0-9])" + "(?=.*[a-z])(?=.*[A-Z])" + "(?=.*[@#$%^&+=])" + "(?=\\S+$).{8,}$";
-        try {
-            Pattern pattern = Pattern.compile(regexPattern);
-
-            if (password == null) {
-                throw new UserRegistrationException("Password Value is null", UserRegistrationException.ErrorCode.NULL_PASSWORD);
-            }
-
-            Matcher match = pattern.matcher(password);
-            flag = match.matches();
-
-            return flag;
-        }
-        catch (Exception error){
-            throw new UserRegistrationException("Password Value is null", UserRegistrationException.ErrorCode.NULL_PASSWORD);
-        }
-    }
+        return result;
+    };
 }
