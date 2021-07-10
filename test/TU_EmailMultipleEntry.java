@@ -49,7 +49,7 @@ public class TU_EmailMultipleEntry {
         UserRegistrationService userService = new UserRegistrationService();
         try {
 
-            boolean result = userService.validateEmailId(this.emailToTest);
+            boolean result = userService.validateEmailId.validateRegistration(this.emailToTest);
             Assertions.assertEquals(this.expectedResult, result);
         }
         catch (UserRegistrationException error){
