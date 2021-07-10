@@ -8,11 +8,10 @@ package com.userregistration.exception;
 public class UserRegistrationException extends Exception{
 
     public  ErrorCode error;
-
     //Defining error code for different types of error
     public enum ErrorCode{
-        NULL_FIRST_NAME, NULL_LAST_NAME,
-        NULL_EMAIL, NULL_MOBILE, NULL_PASSWORD
+        EMPTY_FIRST_NAME, EMPTY_LAST_NAME,
+        EMPTY_EMAIL, EMPTY_MOBILE, EMPTY_PASSWORD
     }
 
     public UserRegistrationException(String message, ErrorCode error) {
