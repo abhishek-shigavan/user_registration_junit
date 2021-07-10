@@ -15,7 +15,6 @@ public class UserRegistration {
     private String password;
 
     public UserRegistration() {
-
     }
 
     public UserRegistration(String f_Name, String l_Name, String emailId, String mob_No, String password) {
