@@ -1,4 +1,4 @@
-# User Registration Validation & Testing Validation Methods Using JUnit
+# User Registration Validation & Testing Validation Methods Using JUnit (Lambda Expression Is Used For Validation Method)
 
 ## Details :- 
 
@@ -11,10 +11,12 @@
 3)  Model --  UserRegistration  --
                   This class sets properties of registration field also give value when called
                   
-4)  Service --  UserRegistrationService --
-                    This class contains methods to validate registration field data 
+4)  Service --  I)  UserRegistrationService --
+                        This class contains methods to validate registration field data 
+                II) UserValidationInter --
+                        Defining Lambda Expression For Validation Meethod
                     
-5)  Test  --  i) TU_UserRegistration  --
+5)  Test  --  I)  TU_UserRegistration  --
                       This class contains Test Cases for all the validation methods     
-              ii) TU_EmailMultipleEntry --
+              II) TU_EmailMultipleEntry --
                       This class contains Test Case for multiple entry of email id 
